@@ -29,7 +29,7 @@ init args location =
         cmds =
             Cmd.batch
                 -- UrlChange doesn't happen automatically which kind of sucks
-                -- so we manually modify the url to let Routing/Update.elm do
+                -- so we manually modify the url to let the update function do
                 -- its thing
                 [ Navigation.modifyUrl location.hash ]
     in
