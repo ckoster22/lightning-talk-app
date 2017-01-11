@@ -1,0 +1,80 @@
+/*===============================
+Zero Data View
+===============================*/
+.lt-no-talk
+{
+    position: relative;
+
+    height: 100%;
+    .inner
+    {
+        position: absolute;
+        left: 50%;
+
+        width: 22em;
+        height: 18em;
+        margin-top: 11em;
+        margin-left: -9em;
+
+        svg
+        {
+            position: absolute;
+            z-index: 5;
+            top: 50%;
+            left: 50%;
+
+            width: 18em;
+            height: 18em;
+            margin-top: -9em;
+            margin-left: -9em;
+
+            fill: darken($canvas-2, 3%);
+        }
+        p
+        {
+            font-size: 18px;
+            font-style: italic;
+
+            position: absolute;
+            z-index: 10;
+            top: 40%;
+            right: 0;
+            left: 0;
+
+            text-align: center;
+        }
+        a.add-talk-button-full,
+        a.add-talk-button-full:link,
+        a.add-talk-button-full:active,
+        a.add-talk-button-full:visited
+        {
+            font-size: 1em;
+
+            position: absolute;
+            z-index: 10;
+            top: 55%;
+            right: 4em;
+            left: 4em;
+
+            width: 10em;
+            margin: 0 auto;
+            padding: $base-unit * 1.5;
+
+            cursor: pointer;
+            transition: all .25s ease;
+            text-align: center;
+            text-decoration: none;
+            text-transform: capitalize;
+
+            border: 0;
+            border-radius: 50px;
+
+            @extend %primary-default;
+
+            &:hover
+            {
+                @extend %primary-hover;
+            }
+        }
+    }
+}

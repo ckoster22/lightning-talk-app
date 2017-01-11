@@ -1,0 +1,99 @@
+/*===============================
+Talk List
+===============================*/
+.talk-list
+{
+    overflow-y: auto;
+
+    background-color: $white;
+}
+
+.talk-list-container
+{
+    input
+    {
+        font-size: 14px;
+
+        display: inline-block;
+
+        width: 240px;
+        padding: .5em .75em;
+
+        border-width: 0;
+        border-radius: 2px;
+        background-color: $inputBg;
+        box-shadow: none;
+    }
+}
+.talk-item
+{
+    float: left;
+
+    width: 100%;
+    height: 110px;
+    padding: $base-unit * 3 $base-unit * 3 $base-unit * 4 $base-unit * 3;
+
+    cursor: pointer;
+    transition: all .15s ease;
+
+    border-bottom: 1px solid darken($canvas-2, 10%);
+    &:first-child
+    {
+        border-top: 1px solid darken($canvas-2, 10%);
+    }
+
+    .talk-title
+    {
+        font-family: 'Roboto', sans-serif;
+        font-size: 16px;
+        font-weight: 400;
+
+        margin: 0 0 $base-unit / 2 0;
+        padding: 0;
+
+        color: $font-dark;
+    }
+    .talk-title-empty
+    {
+        font-family: 'Roboto', sans-serif;
+        font-size: 16px;
+        font-weight: 400;
+        font-style: italic;
+
+        color: $font-color;
+    }
+    .talk-author
+    {
+        font-family: 'Roboto', sans-serif;
+        font-size: 16px;
+        font-weight: 400;
+        font-weight: normal;
+
+        clear: both;
+
+        padding: 0;
+
+        color: $font-color;
+    }
+    .talk-time
+    {
+        font-family: 'Roboto', sans-serif;
+        font-size: 14px;
+        font-weight: 400;
+
+        color: $font-color;
+    }
+    &.selected
+    {
+        border-right: 4px solid $primary;
+        background-color: rgba($canvas-2, 0.80);
+        &:hover
+        {
+            background-color: rgba($canvas-2, 0.80);
+        }
+    }
+    &:hover
+    {
+        background-color: rgba($canvas-2, 0.80);
+    }
+}

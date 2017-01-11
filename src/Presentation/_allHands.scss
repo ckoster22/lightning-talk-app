@@ -1,0 +1,214 @@
+/*===============================
+All Hands
+===============================*/
+.hash-frame
+{
+    position: relative;
+
+    .hash
+    {
+        position: absolute;
+        z-index: 5;
+
+        display: block;
+
+        width: 32px;
+        height: 32px;
+
+        &.ul
+        {
+            top: 0;
+            left: 0;
+
+            border-right: 1px solid $black;
+            border-bottom: 1px solid $black;
+        }
+        &.ur
+        {
+            top: 0;
+            right: 0;
+
+            border-bottom: 1px solid $black;
+            border-left: 1px solid $black;
+        }
+        &.ll
+        {
+            bottom: 0;
+            left: 0;
+
+            border-top: 1px solid $black;
+            border-right: 1px solid $black;
+        }
+        &.lr
+        {
+            right: 0;
+            bottom: 0;
+
+            border-top: 1px solid $black;
+            border-left: 1px solid $black;
+        }
+    }
+}
+.all-hands-outer-frame
+{
+    position: relative;
+    /*display:block;*/
+
+    width: 1312px;
+    height: 768px;
+    padding: $base-unit * 4;
+
+    background-color: $white;
+    .app-url
+    {
+        font-size: 17px;
+        font-weight: 400;
+
+        position: absolute;
+        right: 80px;
+        bottom: 80px;
+
+        color: $font-color;
+    }
+    .background-image-color
+    {
+        display:block;
+        position:absolute;
+        z-index:5;
+        width: 656px;
+        height:705px;
+        top:$base-unit * 4;
+        left:$base-unit * 4;
+        @extend %background-mix;
+        opacity:0.9;
+    }
+    .background-image-mask
+    {
+        display:block;
+        position:absolute;
+        z-index:10;
+        width: 200px;
+        height:705px;
+        top:$base-unit * 4;
+        left:488px;
+        background-color: transparent;
+        border-right: 200px solid $white;
+        border-top: 705px solid transparent;
+    }
+    .background-image
+    {
+        width: 656px;
+        background-image: url('../../vendor/img/all-hands-bg.jpg');
+        background-repeat: no-repeat;
+        background-size: 656px;
+    }
+    @media only screen and (-webkit-min-device-pixel-ratio: 2),
+    only screen and (min--moz-device-pixel-ratio: 2),
+    only screen and (-o-min-device-pixel-ratio: 2/1),
+    only screen and (min-device-pixel-ratio: 2),
+    only screen and (min-resolution: 192dpi),
+    only screen and (min-resolution: 2dppx)
+    {
+        .background-image
+        {
+           background-image: url('../../vendor/img/all-hands-bg@2x.jpg');
+        }
+    }
+    .logo-lockup
+    {
+        display:block;
+        position:absolute;
+        z-index:15;
+        width: 400px;
+        height:80px;
+        top:320px;
+        left:120px;
+
+        .icon
+        {
+            fill: $white;
+            font-size:5em;
+            display:block;
+            float:left;
+            width:auto;
+        }
+        h1
+        {
+            color:$white;
+            margin:14px 0 0 10px;
+            padding:0;
+            font-family: 'Graviola Heavy', sans-serif;
+            display:block;
+            float:left;
+            width:auto;
+            font-size:2.5em;
+        }
+    }
+}
+.slide-content
+{
+    width: 594px;
+    padding: $base-unit * 4 $base-unit * 8;
+    .round-header
+    {
+        display: block;
+
+        margin-bottom: $base-unit * 4;
+
+        .round-date
+        {
+            font-size: 17px;
+
+            color: $font-color;
+        }
+        .theme-title
+        {
+            font-size: 36px;
+            font-weight: 100;
+            line-height: 1.2;
+
+            text-transform: uppercase;
+
+            color: $canvas-1;
+        }
+    }
+    .talk-round
+    {
+        .talk-row
+        {
+            display: block;
+
+            margin-bottom: $base-unit * 5;
+
+            .talk-title
+            {
+                font-size: 22px;
+                font-weight: 400;
+
+                color: $font-dark;
+            }
+            .talk-author,
+            .no-talk
+            {
+                font-size: 17px;
+
+                color: $font-color;
+            }
+            .no-talk
+            {
+                font-style: italic;
+            }
+        }
+    }
+    .next-round
+    {
+        font-size: 22px;
+
+        display: block;
+        clear: both;
+
+        margin-top: $base-unit * 10;
+
+        color: $canvas-1;
+    }
+}

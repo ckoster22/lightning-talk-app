@@ -1,0 +1,8 @@
+node_modules
+elm-stuff
+npm-debug.log
+elm.js
+.node-version
+.idea
+build
+server/data/db.json

@@ -1,0 +1,345 @@
+/*===============================
+Common Elements
+===============================*/
+/* Container used for styling the custom select, the buttom class below adds the
+ * bg gradient, corners, etc. */
+input:not([type=submit]):not([type=file]),
+textarea,
+.custom-select
+{
+    font-size: 1rem;
+
+    display: block;
+
+    margin-bottom: 20px;
+    padding: 1.15em .75em;
+
+    border-width: 0;
+    border-radius: 2px;
+    background-color: $inputBg;
+    box-shadow: none;
+
+    &:focus
+    {
+        outline: 1px solid $primary;
+    }
+
+    &.field-error
+    {
+        border-top: 4px solid $primary;
+
+        &::-webkit-input-placeholder
+        {
+            color: $primary;
+        }
+    }
+}
+::-webkit-input-placeholder
+{
+    color: $placeholder;
+}
+textarea,
+input
+{
+    font-family: 'Roboto', sans-serif;
+
+    resize: none;
+}
+.custom-select
+{
+    font-size: 1rem;
+
+    position: relative;
+
+    display: block;
+
+    padding: 0;
+
+    select
+    {
+        font-size: 1rem;
+
+        width: 100%;
+        margin: 0;
+        padding: 1.15em .75em;
+        padding-right: 2em; /* Match-01 */
+        /* inside $supports so that Android <= 4.3 display the native arrow */
+
+        border: 1px solid transparent; /* Match-05 */
+        border-radius: 2px;
+        outline: none;
+        /* inside $supports so that iOS <= 8 display the native arrow */
+        background: none; /* Match-04 */
+
+        -webkit-appearance: none;
+           -moz-appearance: none;
+                appearance: none;
+        &:focus
+        {
+            border-color: $primary; /* Match-03 */
+        }
+    }
+    &::after
+    {
+        font-family: monospace;
+        font-size: 1.33rem;
+
+        position: absolute;
+        z-index: 2;
+        top: 12.5%;
+        right: .75em;
+
+        display: block;
+
+        content: '^';
+        transform: rotate(180deg);
+        /* These hacks make the select behind the arrow clickable in some browsers */
+        pointer-events: none;
+    }
+}
+.field-error
+{
+    border-top: 4px solid $primary;
+
+    &::-webkit-input-placeholder
+    {
+        color: $primary;
+    }
+}
+
+/*===============================
+Create Form
+===============================*/
+.slide-form
+{
+    position: relative;
+
+    display: flex;
+    flex-direction: column;
+
+    width: 70%;
+    min-width: 560px;
+    max-width: 720px;
+    margin: 50px auto 0;
+
+    color: rgba($black, 0.85);
+    border-radius: 4px 4px 0 0;
+    background: $white;
+    box-shadow: 0 0 8px rgba($black, 0.25);
+
+    align-items: center;
+
+    .form-content
+    {
+        overflow-y: auto;
+        flex-direction: column;
+
+        width: 100%;
+        padding: $base-unit * 3;
+    }
+    input:not([type=submit]):not([type=file]),
+    textarea
+    {
+        width: 100%;
+    }
+    .buttons
+    {
+        position: absolute;
+        right: 0;
+        bottom: 0;
+        left: 0;
+
+        display: flex;
+        flex-direction: row;
+
+        > *
+        {
+            flex-grow: 1;
+        }
+    }
+    .button
+    {
+        font-size: 1em;
+
+        margin: 0;
+        padding: $base-unit * 2.5;
+
+        transition: all .25s ease;
+        text-align: center;
+        text-transform: capitalize;
+
+        border: 0;
+
+        @extend %secondary-default;
+        &:hover
+        {
+            cursor: pointer;
+
+            @extend %secondary-hover-dark;
+        }
+        &.primary
+        {
+            @extend %primary-default;
+            &:hover
+            {
+                @extend %primary-hover;
+            }
+        }
+    }
+    .system-error
+    {
+        font-size: 1em;
+        font-weight: 300;
+        line-height: .75;
+
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        width: 100%;
+        padding: $base-unit * 1.5 $base-unit;
+
+        text-align: center;
+
+        color: $white;
+        border-radius: 4px 4px 0 0;
+        background-color: $primary;
+
+        .icon
+        {
+            width: 2em;
+            height: 1em;
+            *
+            {
+                fill: rgba($white, 1);
+            }
+        }
+    }
+    .time-slot-group
+    {
+        display: flex;
+        float: left;
+
+        margin-bottom: 20px;
+
+        input[type=checkbox]
+        {
+            position: absolute;
+            top: -9999px;
+            left: -9999px;
+        }
+        label
+        {
+            display: block;
+            float: left;
+
+            box-sizing: border-box;
+            width: 90px;
+            margin-right: $base-unit;
+            padding: 1.15em .75em;
+
+            cursor: pointer;
+            transition: all .25s ease;
+            text-align: center;
+
+            color: $placeholder;
+            border-radius: 2px;
+            background-color: $inputBg;
+
+            &:hover
+            {
+                @extend %secondary-hover-dark;
+            }
+            &.disabled
+            {
+                opacity: .4;
+            }
+        }
+        /* Toggled State */
+        input[type=checkbox]:checked ~ label
+        {
+            color: $white;
+            background: $canvas-3;
+        }
+
+        div:last-child label
+        {
+            margin-right: 0;
+        }
+    }
+}
+
+
+/*===============================
+Round Title
+===============================*/
+.round-title
+{
+    font-size: 16px;
+    font-weight: 600;
+
+    display: flex;
+    align-items: center;
+
+    padding: $base-unit *2;
+
+    text-transform: uppercase;
+
+    color: $font-dark;
+    background-color: rgba($canvas-2, 0.60);
+    span
+    {
+        display: flex;
+        margin-left: $base-unit;
+    }
+    input
+    {
+        /* Not proud of all of these importants */
+        display: inline-block !important;
+
+        width: 300px;
+        margin-bottom: 0 !important;
+        padding: .75em .75em !important;
+    }
+    .round-update-button
+    {
+        font-size: 18px;
+
+        display: inline-block;
+
+        margin-top: 1px;
+        padding: .55em .7em .4em .7em;
+
+        cursor: pointer;
+        transition: all .25s ease;
+
+        border-width: 0;
+        border-radius: 2px;
+        box-shadow: none;
+
+        &.save
+        {
+            @extend %primary-default;
+            svg
+            {
+                fill: $white;
+            }
+            &:hover
+            {
+                @extend %primary-hover;
+            }
+        }
+        &.cancel
+        {
+            @extend %secondary-default;
+            svg
+            {
+                fill: $font-color;
+            }
+            &:hover
+            {
+                @extend %secondary-hover-dark;
+            }
+        }
+    }
+}

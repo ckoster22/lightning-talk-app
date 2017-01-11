@@ -1,0 +1,80 @@
+/*===============================
+Details Panel
+===============================*/
+.details-panel
+{
+    width: 460px;
+    padding: $base-unit * 2 $base-unit * 4;
+
+    background-color: lighten($canvas-2, 15%);
+    box-shadow: inset 2px 0 11px rgba($black, 0.15);
+    h1
+    {
+        font-family: 'Roboto', sans-serif;
+        font-size: 32px;
+        font-weight: 300;
+
+        margin: $base-unit 0 0 0;
+
+        color: $canvas-1;
+    }
+    h4
+    {
+        font-size: 14px;
+        font-weight: 400;
+
+        margin: $base-unit/2 0 0 0;
+    }
+    h3
+    {
+        font-size: 14px;
+        font-weight: 400;
+
+        margin: $base-unit 0 0 0;
+
+        color: $font-dark;
+    }
+    p
+    {
+        font-size: 14px;
+        font-weight: 400;
+        line-height: 26px;
+
+        margin: $base-unit 0 0 0;
+
+        white-space: pre-wrap;
+    }
+    .detail-button
+    {
+        font-size: 14px;
+        font-weight: 400;
+
+        display: inline-block;
+
+        margin-top: $base-unit * 2;
+        padding: .55em .7em .4em .7em;
+
+        cursor: pointer;
+        transition: all .25s ease;
+
+        border-width: 0;
+        border-radius: 2px;
+        box-shadow: none;
+        svg
+        {
+            fill: $font-color;
+        }
+        &:hover
+        {
+            @extend %secondary-hover;
+        }
+    }
+}
+
+@media (min-width: 1300px)
+{
+    .details-panel
+    {
+        width: 560px;
+    }
+}

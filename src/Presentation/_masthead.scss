@@ -1,0 +1,126 @@
+/*===============================
+Masthead
+===============================*/
+.nav-bar
+{
+    height: 110px;
+
+    @extend %background-mix;
+
+    .nav-button,
+    .nav-button:link,
+    .nav-button:active,
+    .nav-button:visited
+    {
+        font-family: 'Roboto', sans-serif;
+        font-size: 12px;
+        font-weight: 400;
+
+        width: 100px;
+        margin-right: $base-unit * 4;
+
+        transition: all .25s ease;
+        text-decoration: none;
+        text-transform: uppercase;
+
+        color: rgba($white, 0.60);
+        &:hover
+        {
+            color: $white;
+        }
+        &.selected
+        {
+            color: $white;
+            border-bottom: 3px solid $primary;
+        }
+    }
+    .lt-logo
+    {
+        svg
+        {
+            font-size: 1.25em;
+
+            width: 2.15em;
+            height: 2.15em;
+
+            fill: $white;
+        }
+    }
+    h1
+    {
+        font-family: 'Graviola Heavy', sans-serif;
+        font-size: 24px;
+        font-weight: 300;
+
+        color: $white;
+    }
+    .plus-button,
+    .plus-button:link,
+    .plus-button:active,
+    .plus-button:visited
+    {
+        line-height: .8;
+
+        display: block;
+
+        width: 1.85em;
+        height: 1.85em;
+        margin-left: auto;
+        padding: .4em;
+
+        cursor: pointer;
+        transition: all .25s ease;
+        text-align: center;
+        text-decoration: none;
+
+        color: $white;
+        border-radius: .9em;
+        background-color: $primary;
+        &:hover
+        {
+            @extend %primary-hover;
+        }
+    }
+    .logout-button,
+    .logout-button:link,
+    .logout-button:active,
+    .logout-button:visited
+    {
+        line-height: .8;
+
+        display: block;
+
+        width: 2em;
+        height: 2em;
+        margin-left: auto;
+        padding: .4em;
+
+        cursor: pointer;
+        transition: all .25s ease;
+        text-align: center;
+
+        color: $white;
+        svg
+        {
+            font-size: 1.25em;
+
+            width: 1em;
+            height: 1em;
+
+            fill: $white;
+        }
+
+        &:hover
+        {
+            svg
+            {
+                font-size: 1.25em;
+
+                width: 1em;
+                height: 1em;
+
+                fill: rgba($white, 0.80);
+            }
+        }
+    }
+}

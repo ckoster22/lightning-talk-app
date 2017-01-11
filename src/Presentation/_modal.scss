@@ -1,0 +1,82 @@
+/*===============================
+Modal Dialogs
+===============================*/
+.modal
+{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+
+    width: 440px;
+    height: 330px;
+    margin-top: -160px;
+    margin-left: -220px;
+
+    border-radius: 4px;
+    background: $white;
+    box-shadow: 0 0 8px rgba($black, 0.25);
+    h1
+    {
+        font-family: 'Roboto', sans-serif;
+        font-weight: 300;
+
+        margin: 0;
+        padding: $base-unit * 7 0;
+
+        text-align: center;
+
+        color: $white;
+        border-radius: 4px 4px 0 0;
+
+        @extend %background-mix;
+    }
+    p
+    {
+        font-family: 'Roboto', sans-serif;
+        font-weight: 300;
+
+        padding: $base-unit $base-unit * 4;
+
+        text-align: center;
+
+        color: $font-color;
+    }
+    .confirm-buttons
+    {
+        div
+        {
+            font-size: 1em;
+
+            width: 180px;
+            margin-bottom: $base-unit *3;
+            padding: $base-unit * 2;
+
+            cursor: pointer;
+            transition: all .25s ease;
+            text-align: center;
+            text-transform: capitalize;
+
+            border: 0;
+            border-radius: 50px;
+
+
+            &:first-child
+            {
+                @extend %secondary-default;
+                &:hover
+                {
+                    @extend %secondary-hover-dark;
+                }
+            }
+            &:last-child
+            {
+                @extend %primary-default;
+
+                &:hover
+                {
+                    @extend %primary-hover;
+                }
+            }
+        }
+    }
+}

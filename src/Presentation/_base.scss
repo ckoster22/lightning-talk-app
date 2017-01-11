@@ -1,0 +1,83 @@
+/*===============================
+Typography
+===============================*/
+@font-face
+{
+    font-family: 'Graviola Heavy';
+
+    src: url('../../vendor/fonts/GraviolaSoft-Heavy.woff') format('woff');
+}
+@font-face
+{
+    font-family: 'Graviola Bold';
+
+    src: url('../../vendor/fonts/GraviolaSoft-Bold.woff') format('woff');
+}
+@font-face
+{
+    font-family: 'Graviola Book';
+
+    src: url('../../vendor/fonts/GraviolaSoft-Book.woff') format('woff');
+}
+
+/*===============================
+Base Units
+===============================*/
+$base-unit: 8px;
+
+/*===============================
+Normalizing Base styles
+===============================*/
+html
+{
+    width: 100%;
+    min-width: 1024px;
+    height: 100%;
+
+    color: $font-color;
+
+    @extend %background-mix;
+
+    body
+    {
+        font-family: 'Roboto', sans-serif;
+        font-size: 16px;
+
+        display: flex;
+
+        width: 100%;
+        height: 100%;
+        margin: 0;
+    }
+}
+*
+{
+    box-sizing: border-box;
+}
+ul
+{
+    padding: 0;
+
+    list-style: none;
+}
+a
+{
+    cursor: pointer;
+    text-decoration: none;
+}
+
+/*===============================
+Globally scoped styles
+===============================*/
+.icon-large
+{
+    font-size: 2em;
+
+    width: 1em;
+    height: 1em;
+}
+.blur
+{
+    -webkit-filter: blur(10px);
+            filter: blur(10px);
+}

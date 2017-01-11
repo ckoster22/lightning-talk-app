@@ -1,0 +1,66 @@
+/*===============================
+Theme Helpers
+All extendable classes should be silent classes.
+See: http://csswizardry.com/2014/01/extending-silent-classes-in-sass/
+===============================*/
+%primary-default
+{
+    color: $white;
+    background-color: $primary;
+}
+
+%primary-hover
+{
+    background-color: darken($primary, 12%);
+}
+
+%secondary-default
+{
+    color: $font-color;
+    background-color: darken($canvas-2, 10%);
+}
+
+%secondary-hover
+{
+    color: $font-color;
+    background-color: darken($canvas-2, 10%);
+    svg
+    {
+        fill: darken($font-color, 20%);
+    }
+}
+
+%secondary-hover-dark
+{
+    color: darken($font-color, 20%);
+    background-color: darken($canvas-2, 20%);
+    svg
+    {
+        fill: darken($font-color, 30%);
+    }
+}
+
+%background-mix
+{
+    background-color: $canvas-1;
+    background-image: radial-gradient(
+    ellipse at 80% 140px,
+    rgba($canvas-mix, 0.40),
+    rgba($canvas-mix, 0.0)
+    ),
+    radial-gradient(
+    200px 200px at -50px 0px,
+    rgba($canvas-mix, 0.30),
+    rgba($canvas-mix, 0.0)
+    );
+}
+
+%selected-mix
+{
+    background: $canvas-1;
+    background-image: radial-gradient(
+    10000px at 50% 50%,
+    rgba($canvas-mix, 0.20),
+    rgba($canvas-mix, 0.0)
+    );
+}
