@@ -1,12 +1,12 @@
 module Views.TalkForm.TalkForm exposing (view)
 
-import Html exposing (Html, div, text, input, button, h2, a, select, textarea, option, label)
-import Html.Attributes exposing (value, placeholder, class, classList, rows, for, name, type_, checked, selected, id, disabled, title)
-import Html.Events exposing (onInput, onClick, onCheck)
-import Model.Model exposing (Data, FormError(..), FormType(..), LightningTalkFormModel, Msg(..), Model(..), Modifier(..), Page(..))
-import Views.Icons.Icon exposing (icon)
 import Helpers.SelectorHelper exposing ((<<<))
-import Views.TalkForm.TalkFormSelector exposing (selector, RoundViewModel, TimeslotViewModel, ViewModel)
+import Html exposing (Html, a, button, div, h2, input, label, option, select, text, textarea)
+import Html.Attributes exposing (checked, class, classList, disabled, for, id, name, placeholder, rows, selected, title, type_, value)
+import Html.Events exposing (onCheck, onClick, onInput)
+import Model.Model exposing (Data, FormError(..), FormType(..), LightningTalkFormModel, Model(..), Modifier(..), Msg(..), Page(..))
+import Views.Icons.Icon exposing (icon)
+import Views.TalkForm.TalkFormSelector exposing (RoundViewModel, TimeslotViewModel, ViewModel, selector)
 
 
 view : Data -> Modifier -> Html Msg

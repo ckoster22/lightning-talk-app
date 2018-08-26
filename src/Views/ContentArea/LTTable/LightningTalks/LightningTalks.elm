@@ -1,13 +1,13 @@
 module Views.ContentArea.LTTable.LightningTalks.LightningTalks exposing (view)
 
-import Html exposing (Html, div, span, ul, li, text, input, button, h3, h4)
-import Html.Attributes exposing (class, classList, value, title)
-import Html.Events exposing (onClick, onInput)
-import Model.Model as Model exposing (Data, Model(..), Modifier(..), Msg(..), Page(..), Timeslot)
-import Views.Icons.Icon exposing (icon)
-import Model.LightningTalkModel as LightningTalk
 import Helpers.SelectorHelper exposing ((<<<<))
-import Views.ContentArea.LTTable.LightningTalks.LightningTalksSelector exposing (selector, RoundViewModel, TimeslotViewModel, ViewModel)
+import Html exposing (Html, button, div, h3, h4, input, li, span, text, ul)
+import Html.Attributes exposing (class, classList, title, value)
+import Html.Events exposing (onClick, onInput)
+import Model.LightningTalkModel as LightningTalk
+import Model.Model as Model exposing (Data, Model(..), Modifier(..), Msg(..), Page(..), Timeslot)
+import Views.ContentArea.LTTable.LightningTalks.LightningTalksSelector exposing (RoundViewModel, TimeslotViewModel, ViewModel, selector)
+import Views.Icons.Icon exposing (icon)
 
 
 view : Page -> Data -> Modifier -> Html Msg
@@ -74,9 +74,10 @@ roundThemeElement : RoundViewModel -> Html Msg
 roundThemeElement { round, isEditing, themeDisplay } =
     if isEditing then
         span []
-            [ input [ value round.theme, onInput (\input -> UpdateRound ({ round | theme = input })) ] []
+            [ input [ value round.theme, onInput (\input -> UpdateRound { round | theme = input }) ] []
             , div [ class "round-update-button save", onClick UpdateRoundSubmit, title "Save changes" ] [ icon "icon-check" ]
             , div [ class "round-update-button cancel", onClick Cancel, title "Cancel" ] [ icon "icon-cancel" ]
             ]
+
     else
         span [ onClick (SetRoundIsEditing round) ] [ text themeDisplay ]

@@ -1,8 +1,8 @@
-module Views.NavBar.NavBarSelector exposing (selector, ViewModel)
+module Views.NavBar.NavBarSelector exposing (ViewModel, selector)
 
 import Model.Model exposing (Data, Modifier(..), Page(..))
-import Views.Buttons.NavButton exposing (NavButtonArgs)
 import Views.Buttons.ActionButton exposing (ActionButtonArgs)
+import Views.Buttons.NavButton exposing (NavButtonArgs)
 
 
 type alias ViewModel =
@@ -29,4 +29,4 @@ selector modifier navButtons actionButtonsArgs =
                 _ ->
                     False
     in
-        ViewModel shouldBlur navButtons actionButtonsArgs
+    ViewModel shouldBlur navButtons actionButtonsArgs

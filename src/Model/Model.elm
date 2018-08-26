@@ -1,11 +1,11 @@
-module Model.Model exposing (..)
+module Model.Model exposing (AttributeName, Data, DeleteFormModel, FormError(..), FormType(..), Id, LightningTalkFormModel, Model(..), Modifier(..), Msg(..), Page(..), TalkIdentifier, Timeslot)
 
+import Date exposing (Date)
+import Dict exposing (Dict)
 import Http
 import Model.LightningTalkModel as LightningTalk
 import Model.RoundModel as Round
-import Date exposing (Date)
 import Time exposing (Time)
-import Dict exposing (Dict)
 
 
 type alias Data =

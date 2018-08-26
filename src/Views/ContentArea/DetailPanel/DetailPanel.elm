@@ -1,13 +1,13 @@
 module Views.ContentArea.DetailPanel.DetailPanel exposing (view)
 
-import Html exposing (Html, div, text, button, h1, h4, h3, img, p, a)
-import Html.Attributes exposing (class, src, title, href)
+import Helpers.ModelHelper as ModelHelper
+import Html exposing (Html, a, button, div, h1, h3, h4, img, p, text)
+import Html.Attributes exposing (class, href, src, title)
 import Html.Events exposing (onClick)
-import Model.Model as Model exposing (Data, Model(..), Modifier(..), Msg(..), Page(..), Timeslot)
 import Model.LightningTalkModel as LightningTalkModel
+import Model.Model as Model exposing (Data, Model(..), Modifier(..), Msg(..), Page(..), Timeslot)
 import Model.RoundModel as Round
 import Time exposing (Time)
-import Helpers.ModelHelper as ModelHelper
 import Views.Icons.Icon exposing (icon)
 
 
@@ -35,9 +35,9 @@ view page data modifier =
                 Nothing ->
                     [ div [] [] ]
     in
-        div
-            [ class "details-panel flex-none" ]
-            content
+    div
+        [ class "details-panel flex-none" ]
+        content
 
 
 talkDetails : Page -> LightningTalkModel.Model -> Round.Model -> Time -> List (Html Model.Msg)
@@ -57,24 +57,25 @@ emptyDetails : Timeslot -> List (Html Model.Msg)
 emptyDetails timeslot =
     let
         route =
-            "/#create/" ++ timeslot.round.id ++ "/" ++ (toString timeslot.offset)
+            "/#create/" ++ timeslot.round.id ++ "/" ++ toString timeslot.offset
     in
-        [ div
-            [ class "flex lt-no-talk" ]
-            [ div [ class "flex-auto inner" ]
-                [ p [] [ text "There is no talk scheduled for this time slot." ]
-                , icon "lt-logo"
-                , a [ class "add-talk-button-full", title "Create a talk", href route ] [ text "Create a talk" ]
-                ]
+    [ div
+        [ class "flex lt-no-talk" ]
+        [ div [ class "flex-auto inner" ]
+            [ p [] [ text "There is no talk scheduled for this time slot." ]
+            , icon "lt-logo"
+            , a [ class "add-talk-button-full", title "Create a talk", href route ] [ text "Create a talk" ]
             ]
         ]
+    ]
 
 
 getOptionsHtml : Page -> LightningTalkModel.Model -> Round.Model -> Time -> List (Html Msg)
 getOptionsHtml page talk round offset =
     if page == UpcomingTalks then
         [ div [] [ a [ onClick PromptForTalkDeletion, title "Delete talk", class "detail-button" ] [ icon "icon-delete" ] ]
-        , div [] [ a [ title "Update talk", class "detail-button", href ("/#update/" ++ round.id ++ "/" ++ (toString offset)) ] [ icon "icon-edit" ] ]
+        , div [] [ a [ title "Update talk", class "detail-button", href ("/#update/" ++ round.id ++ "/" ++ toString offset) ] [ icon "icon-edit" ] ]
         ]
+
     else
         []

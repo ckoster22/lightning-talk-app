@@ -1,11 +1,11 @@
-module Views.AllHands.AllHandsSelector exposing (selector, ViewModel)
+module Views.AllHands.AllHandsSelector exposing (ViewModel, selector)
 
-import Model.Model exposing (Data)
-import Model.LightningTalkModel as LightningTalk
-import Model.RoundModel as Round
+import Date exposing (Date)
 import Helpers.DateHelper as DateHelper
 import Helpers.ModelHelper as ModelHelper
-import Date exposing (Date)
+import Model.LightningTalkModel as LightningTalk
+import Model.Model exposing (Data)
+import Model.RoundModel as Round
 
 
 type alias ViewModel =
@@ -22,23 +22,23 @@ selector data =
         upcomingRounds =
             List.filter (ModelHelper.upcomingRoundFilter data.initialTime) data.rounds
     in
-        case upcomingRounds of
-            _ :: upcomingRound :: twoRoundsFromNow :: _ ->
-                ViewModel
-                    (getRoundDisplayDate upcomingRound)
-                    (ModelHelper.getThemeDisplay upcomingRound.theme)
-                    (getCollapsedTalks upcomingRound)
-                    (getNextRoundDisplay twoRoundsFromNow)
+    case upcomingRounds of
+        _ :: upcomingRound :: twoRoundsFromNow :: _ ->
+            ViewModel
+                (getRoundDisplayDate upcomingRound)
+                (ModelHelper.getThemeDisplay upcomingRound.theme)
+                (getCollapsedTalks upcomingRound)
+                (getNextRoundDisplay twoRoundsFromNow)
 
-            _ :: upcomingRound :: _ ->
-                ViewModel
-                    (getRoundDisplayDate upcomingRound)
-                    (ModelHelper.getThemeDisplay upcomingRound.theme)
-                    (getCollapsedTalks upcomingRound)
-                    ""
+        _ :: upcomingRound :: _ ->
+            ViewModel
+                (getRoundDisplayDate upcomingRound)
+                (ModelHelper.getThemeDisplay upcomingRound.theme)
+                (getCollapsedTalks upcomingRound)
+                ""
 
-            _ ->
-                ViewModel "" "" [] ""
+        _ ->
+            ViewModel "" "" [] ""
 
 
 getRoundDisplayDate : Round.Model -> String
@@ -57,7 +57,7 @@ getRoundDisplayDate round =
                 |> Date.day
                 |> toString
     in
-        month ++ " " ++ day
+    month ++ " " ++ day
 
 
 getCollapsedTalks : Round.Model -> List (Maybe LightningTalk.Model)
@@ -84,4 +84,4 @@ getNextRoundDisplay round =
         theme =
             ModelHelper.getThemeDisplay round.theme
     in
-        month ++ " " ++ day ++ ": " ++ theme
+    month ++ " " ++ day ++ ": " ++ theme

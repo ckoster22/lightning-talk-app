@@ -1,10 +1,10 @@
 module Views.AllHands.AllHands exposing (view)
 
-import Html exposing (Html, div, text, h1)
+import Html exposing (Html, div, h1, text)
 import Html.Attributes exposing (class)
-import Model.Model as Model exposing (Data, Msg)
 import Model.LightningTalkModel as LightningTalk
-import Views.AllHands.AllHandsSelector exposing (selector, ViewModel)
+import Model.Model as Model exposing (Data, Msg)
+import Views.AllHands.AllHandsSelector exposing (ViewModel, selector)
 import Views.Icons.Icon exposing (icon)
 
 

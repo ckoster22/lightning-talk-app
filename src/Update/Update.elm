@@ -1,4 +1,4 @@
-port module Update.Update exposing (update, subscriptions)
+port module Update.Update exposing (subscriptions, update)
 
 import Model.Model as Model exposing (Model(..), Modifier(..), Msg(..), Page(..))
 import Update.Loading.Update as LoadingUpdate

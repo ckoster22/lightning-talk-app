@@ -1,10 +1,10 @@
-module Http.RoundHttp exposing (..)
+module Http.RoundHttp exposing (createRound, createTalk, deleteTalk, getRounds, updateRound, updateTalk)
 
-import Model.RoundModel as Round
-import Model.Model as Model exposing (Msg(..))
-import Task
 import Helpers.HttpHelper exposing (httpGet, httpPost, httpPut)
 import Http
+import Model.Model as Model exposing (Msg(..))
+import Model.RoundModel as Round
+import Task
 
 
 getRounds : Cmd Msg

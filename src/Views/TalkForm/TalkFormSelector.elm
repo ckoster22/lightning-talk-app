@@ -1,12 +1,12 @@
-module Views.TalkForm.TalkFormSelector exposing (selector, RoundViewModel, TimeslotViewModel, ViewModel)
+module Views.TalkForm.TalkFormSelector exposing (RoundViewModel, TimeslotViewModel, ViewModel, selector)
 
-import Model.Model exposing (Data, FormError(..), FormType(..), LightningTalkFormModel, Modifier(..), Msg(..))
-import Model.LightningTalkModel as LightningTalk
-import Model.RoundModel as Round
+import Date exposing (Date)
 import Helpers.DateHelper as DateHelper
 import Helpers.ErrorHandling as ErrorHandling
 import Helpers.ModelHelper as ModelHelper
-import Date exposing (Date)
+import Model.LightningTalkModel as LightningTalk
+import Model.Model exposing (Data, FormError(..), FormType(..), LightningTalkFormModel, Modifier(..), Msg(..))
+import Model.RoundModel as Round
 
 
 type alias ViewModel =
@@ -126,20 +126,20 @@ selector data modifier =
         submitModel =
             createSubmitModel modifier
     in
-        ViewModel
-            maybeGeneralError
-            upcomingRoundViewModels
-            formModel
-            selectedRound
-            hasTimeslotError
-            hasTopicError
-            hasSpeakersError
-            hasDescriptionError
-            onTopicChange
-            onSpeakersChange
-            onRoundChange
-            onDescriptionChange
-            submitModel
+    ViewModel
+        maybeGeneralError
+        upcomingRoundViewModels
+        formModel
+        selectedRound
+        hasTimeslotError
+        hasTopicError
+        hasSpeakersError
+        hasDescriptionError
+        onTopicChange
+        onSpeakersChange
+        onRoundChange
+        onDescriptionChange
+        submitModel
 
 
 hasErrorForField : Maybe FormError -> String -> Bool
@@ -161,7 +161,7 @@ onTopicUpdate formModel topic =
         nextTalk =
             { currTalk | topic = topic }
     in
-        UpdateTalkFormModel { formModel | model = nextTalk }
+    UpdateTalkFormModel { formModel | model = nextTalk }
 
 
 onSpeakersUpdate : LightningTalkFormModel -> String -> Msg
@@ -173,7 +173,7 @@ onSpeakersUpdate formModel speakers =
         nextTalk =
             { currTalk | speakers = speakers }
     in
-        UpdateTalkFormModel { formModel | model = nextTalk }
+    UpdateTalkFormModel { formModel | model = nextTalk }
 
 
 onRoundUpdate : LightningTalkFormModel -> List Round.Model -> String -> Msg
@@ -184,7 +184,7 @@ onRoundUpdate formModel rounds roundId =
                 |> List.filter (\round -> round.id == roundId)
                 |> List.head
     in
-        UpdateTalkFormModel { formModel | selectedRound = nextRound, selectedSlotNum = Nothing }
+    UpdateTalkFormModel { formModel | selectedRound = nextRound, selectedSlotNum = Nothing }
 
 
 onDescriptionUpdate : LightningTalkFormModel -> String -> Msg
@@ -196,7 +196,7 @@ onDescriptionUpdate formModel description =
         nextTalk =
             { currTalk | description = description }
     in
-        UpdateTalkFormModel { formModel | model = nextTalk }
+    UpdateTalkFormModel { formModel | model = nextTalk }
 
 
 createRoundViewModel : LightningTalkFormModel -> Round.Model -> RoundViewModel
@@ -214,7 +214,7 @@ createRoundViewModel formModel round =
             ModelHelper.getThemeDisplay round.theme
 
         displayText =
-            (DateHelper.getDateFromEpoch round.startDateTime) ++ " - " ++ theme
+            DateHelper.getDateFromEpoch round.startDateTime ++ " - " ++ theme
 
         isFull =
             round.slot1 /= Nothing && round.slot2 /= Nothing && round.slot3 /= Nothing && round.slot4 /= Nothing
@@ -226,14 +226,14 @@ createRoundViewModel formModel round =
             , createTimeslotViewModel formModel round round.slot1 4
             ]
     in
-        RoundViewModel round displayText isSelected isFull timeslotViewModels
+    RoundViewModel round displayText isSelected isFull timeslotViewModels
 
 
 createTimeslotViewModel : LightningTalkFormModel -> Round.Model -> Maybe LightningTalk.Model -> Int -> TimeslotViewModel
 createTimeslotViewModel formModel slotRound maybeTalk slotNum =
     let
         timeslotId =
-            "timeslot" ++ (toString slotNum)
+            "timeslot" ++ toString slotNum
 
         isChecked =
             formModel.selectedRound == Just slotRound && formModel.selectedSlotNum == Just slotNum
@@ -241,25 +241,28 @@ createTimeslotViewModel formModel slotRound maybeTalk slotNum =
         isDisabled =
             if slotNum == 1 then
                 slotRound.slot1 /= Nothing && slotRound.slot1 /= Just formModel.original
+
             else if slotNum == 2 then
                 slotRound.slot2 /= Nothing && slotRound.slot2 /= Just formModel.original
+
             else if slotNum == 3 then
                 slotRound.slot3 /= Nothing && slotRound.slot3 /= Just formModel.original
+
             else
                 slotRound.slot4 /= Nothing && slotRound.slot4 /= Just formModel.original
 
         onCheckedHandler =
-            (\checked ->
+            \checked ->
                 if checked then
                     UpdateTalkFormModel { formModel | selectedSlotNum = Just slotNum }
+
                 else
                     UpdateTalkFormModel { formModel | selectedSlotNum = Nothing }
-            )
 
         timeDisplay =
-            ModelHelper.getTalkStartTime (slotRound.startDateTime + (((toFloat slotNum) - 1) * 600000))
+            ModelHelper.getTalkStartTime (slotRound.startDateTime + ((toFloat slotNum - 1) * 600000))
     in
-        TimeslotViewModel timeslotId isChecked isDisabled onCheckedHandler timeDisplay
+    TimeslotViewModel timeslotId isChecked isDisabled onCheckedHandler timeDisplay
 
 
 createSubmitModel : Modifier -> SubmitModel

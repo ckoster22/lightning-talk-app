@@ -1,7 +1,7 @@
 module Views.Header.Container exposing (view)
 
 import Html exposing (Html)
-import Model.Model as Model exposing (Data, Msg, Model(..), Modifier(..), Page(..))
+import Model.Model as Model exposing (Data, Model(..), Modifier(..), Msg, Page(..))
 import Views.NavBar.NavBar as NavBar
 
 

@@ -1,7 +1,7 @@
-module Model.LightningTalkModel exposing (Model, ltJsonDecoder, ltJsonEncoder, empty)
+module Model.LightningTalkModel exposing (Model, empty, ltJsonDecoder, ltJsonEncoder)
 
+import Json.Decode as Decode exposing (Decoder, at, field, list, map3, string)
 import Json.Encode as Encode exposing (object, string)
-import Json.Decode as Decode exposing (Decoder, at, string, list, map3, field)
 import Time exposing (Time)
 
 

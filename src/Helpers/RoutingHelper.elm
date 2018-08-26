@@ -1,8 +1,8 @@
 module Helpers.RoutingHelper exposing (locationToMsg)
 
 import Model.Model as Model exposing (Msg(..), TalkIdentifier)
-import UrlParser as Url exposing (Parser, oneOf, s, (</>), string, int)
 import Navigation exposing (Location)
+import UrlParser as Url exposing ((</>), Parser, int, oneOf, s, string)
 
 
 routeToMsgParser : Parser (Msg -> a) a

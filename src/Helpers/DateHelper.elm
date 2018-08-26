@@ -1,7 +1,7 @@
-module Helpers.DateHelper exposing (millisecondsInHour, getDateFromEpoch, convertMonthToString)
+module Helpers.DateHelper exposing (convertMonthToString, getDateFromEpoch, millisecondsInHour)
 
-import Time exposing (Time)
 import Date exposing (Month(..))
+import Time exposing (Time)
 
 
 millisecondsInHour : Float
@@ -27,7 +27,7 @@ getDateFromEpoch epoch =
         monthString =
             convertMonthToString month
     in
-        monthString ++ " " ++ (toString day) ++ ", " ++ (toString year)
+    monthString ++ " " ++ toString day ++ ", " ++ toString year
 
 
 convertMonthToString : Month -> String

@@ -1,12 +1,12 @@
-module Views.ContentArea.LTTable.LightningTalks.LightningTalksSelector exposing (selector, RoundViewModel, TimeslotViewModel, ViewModel)
+module Views.ContentArea.LTTable.LightningTalks.LightningTalksSelector exposing (RoundViewModel, TimeslotViewModel, ViewModel, selector)
 
-import Model.Model exposing (Data, Modifier(..), Msg(..), Page(..), Timeslot)
+import Date exposing (Date)
+import Helpers.DateHelper exposing (convertMonthToString, getDateFromEpoch, millisecondsInHour)
+import Helpers.ModelHelper as ModelHelper
 import Model.LightningTalkModel as LightningTalk
+import Model.Model exposing (Data, Modifier(..), Msg(..), Page(..), Timeslot)
 import Model.RoundModel as Round
 import Time exposing (Time)
-import Date exposing (Date)
-import Helpers.DateHelper exposing (millisecondsInHour, getDateFromEpoch, convertMonthToString)
-import Helpers.ModelHelper as ModelHelper
 
 
 type alias ViewModel =
@@ -41,18 +41,19 @@ selector page data modifier =
                 getFilteredRounds previousRoundsFilter data
                     |> List.sortBy .startDateTime
                     |> List.reverse
+
             else
                 getFilteredRounds upcomingRoundsFilter data
                     |> List.sortBy .startDateTime
     in
-        roundsToDisplay
-            |> List.map (transformRoundToViewModel modifier isPreviousPage)
-            |> ViewModel
+    roundsToDisplay
+        |> List.map (transformRoundToViewModel modifier isPreviousPage)
+        |> ViewModel
 
 
 previousRoundsFilter : Date -> Round.Model -> Bool
 previousRoundsFilter initialDate round =
-    (Date.toTime initialDate) >= round.startDateTime + millisecondsInHour
+    Date.toTime initialDate >= round.startDateTime + millisecondsInHour
 
 
 upcomingRoundsFilter : Date -> Round.Model -> Bool
@@ -73,6 +74,7 @@ transformRoundToViewModel modifier isPreviousPage round =
                 WithRoundEditing editRound ->
                     if editRound.id == round.id then
                         ( True, editRound, Nothing )
+
                     else
                         ( False, round, Nothing )
 
@@ -91,7 +93,7 @@ transformRoundToViewModel modifier isPreviousPage round =
         startTimeDisplay =
             getDateFromEpoch roundToShow.startDateTime ++ ":"
     in
-        RoundViewModel roundToShow isEditing slotModels themeDisplay startTimeDisplay
+    RoundViewModel roundToShow isEditing slotModels themeDisplay startTimeDisplay
 
 
 transformSlotsToViewModel : Round.Model -> Maybe Timeslot -> Bool -> List TimeslotViewModel
@@ -100,31 +102,35 @@ transformSlotsToViewModel round maybeSelectedTimeslot isPreviousPage =
         slot1ViewModel =
             if isPreviousPage && round.slot1 == Nothing then
                 []
+
             else
                 [ createTimeslotViewModel round.slot1 0 round (isSlotSelected maybeSelectedTimeslot round 0) ]
 
         slot2ViewModel =
             if isPreviousPage && round.slot2 == Nothing then
                 []
+
             else
                 [ createTimeslotViewModel round.slot2 600000 round (isSlotSelected maybeSelectedTimeslot round 600000) ]
 
         slot3ViewModel =
             if isPreviousPage && round.slot3 == Nothing then
                 []
+
             else
                 [ createTimeslotViewModel round.slot3 1200000 round (isSlotSelected maybeSelectedTimeslot round 1200000) ]
 
         slot4ViewModel =
             if isPreviousPage && round.slot4 == Nothing then
                 []
+
             else
                 [ createTimeslotViewModel round.slot4 1800000 round (isSlotSelected maybeSelectedTimeslot round 1800000) ]
     in
-        slot4ViewModel
-            |> List.append slot3ViewModel
-            |> List.append slot2ViewModel
-            |> List.append slot1ViewModel
+    slot4ViewModel
+        |> List.append slot3ViewModel
+        |> List.append slot2ViewModel
+        |> List.append slot1ViewModel
 
 
 createTimeslotViewModel : Maybe LightningTalk.Model -> Time -> Round.Model -> Bool -> TimeslotViewModel
@@ -136,7 +142,7 @@ createTimeslotViewModel maybeTalk offset round isSelected =
         startTime =
             ModelHelper.getTalkStartTime (round.startDateTime + offset)
     in
-        TimeslotViewModel clickMsg isSelected maybeTalk startTime
+    TimeslotViewModel clickMsg isSelected maybeTalk startTime
 
 
 isSlotSelected : Maybe Timeslot -> Round.Model -> Time -> Bool

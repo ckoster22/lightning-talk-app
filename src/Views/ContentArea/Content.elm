@@ -3,8 +3,8 @@ module Views.ContentArea.Content exposing (view)
 import Html exposing (Html, div, h1, text)
 import Html.Attributes exposing (classList)
 import Model.Model as Model exposing (Data, Model(..), Modifier(..), Msg(..), Page(..))
-import Views.ContentArea.LTTable.Container as Container
 import Views.ContentArea.DetailPanel.DetailPanel as DetailPanel
+import Views.ContentArea.LTTable.Container as Container
 
 
 view : Page -> Data -> Modifier -> Html Msg
@@ -24,13 +24,13 @@ view page data modifier =
                 _ ->
                     False
     in
-        div
-            [ classList
-                [ ( "blur", shouldBlur )
-                , ( "flex", True )
-                , ( "flex-auto", True )
-                ]
+    div
+        [ classList
+            [ ( "blur", shouldBlur )
+            , ( "flex", True )
+            , ( "flex-auto", True )
             ]
-            [ Container.view page data modifier
-            , DetailPanel.view page data modifier
-            ]
+        ]
+        [ Container.view page data modifier
+        , DetailPanel.view page data modifier
+        ]

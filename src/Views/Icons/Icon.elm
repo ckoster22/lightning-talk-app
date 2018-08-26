@@ -2,9 +2,9 @@ module Views.Icons.Icon exposing (icon)
 
 import Html exposing (Html, node)
 import Html.Attributes exposing (attribute)
-import Svg exposing (svg, use)
-import Svg.Attributes exposing (width, height, viewBox, class, xlinkHref)
 import Model.Model as Model exposing (Msg(..))
+import Svg exposing (svg, use)
+import Svg.Attributes exposing (class, height, viewBox, width, xlinkHref)
 
 
 icon : String -> Html Msg

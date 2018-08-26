@@ -1,13 +1,13 @@
 module Views.NavBar.NavBar exposing (view)
 
-import Html exposing (Html, div, button, text, h1)
-import Html.Attributes exposing (class, classList, height, width, title)
-import Model.Model as Model exposing (Msg(..), Modifier)
-import Views.Buttons.NavButton exposing (navButton, NavButtonArgs)
-import Views.Buttons.ActionButton exposing (actionButton, ActionButtonArgs)
-import Views.Icons.Icon exposing (icon)
-import Views.NavBar.NavBarSelector exposing (selector, ViewModel)
 import Helpers.SelectorHelper exposing ((<<<<))
+import Html exposing (Html, button, div, h1, text)
+import Html.Attributes exposing (class, classList, height, title, width)
+import Model.Model as Model exposing (Modifier, Msg(..))
+import Views.Buttons.ActionButton exposing (ActionButtonArgs, actionButton)
+import Views.Buttons.NavButton exposing (NavButtonArgs, navButton)
+import Views.Icons.Icon exposing (icon)
+import Views.NavBar.NavBarSelector exposing (ViewModel, selector)
 
 
 view : Modifier -> List NavButtonArgs -> List ActionButtonArgs -> Html Msg
@@ -40,14 +40,14 @@ logoAndNavButtons navButtonsArgs =
         renderedNavButtons =
             List.map navButton navButtonsArgs
     in
-        div [ class "flex" ]
-            [ div [ class "self-center ml2 lt-logo" ]
-                [ icon "lt-logo" ]
-            , h1 [ class "self-center ml1 mr4" ]
-                [ text "Lightning Talks" ]
-            , div [ class "flex self-strech justify-center" ]
-                renderedNavButtons
-            ]
+    div [ class "flex" ]
+        [ div [ class "self-center ml2 lt-logo" ]
+            [ icon "lt-logo" ]
+        , h1 [ class "self-center ml1 mr4" ]
+            [ text "Lightning Talks" ]
+        , div [ class "flex self-strech justify-center" ]
+            renderedNavButtons
+        ]
 
 
 actionButtons : List ActionButtonArgs -> Html Msg
@@ -56,5 +56,5 @@ actionButtons actionButtonsArgs =
         renderedActionButtons =
             List.map actionButton actionButtonsArgs
     in
-        div [ class "flex justify-end" ]
-            renderedActionButtons
+    div [ class "flex justify-end" ]
+        renderedActionButtons

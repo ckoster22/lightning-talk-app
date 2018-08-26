@@ -1,9 +1,9 @@
-module Model.RoundModel exposing (Model, roundJsonEncoder, roundJsonDecoder, roundsJsonDecoder, empty)
+module Model.RoundModel exposing (Model, empty, roundJsonDecoder, roundJsonEncoder, roundsJsonDecoder)
 
+import Json.Decode exposing (Decoder, at, field, float, int, list, map7, nullable, string)
 import Json.Encode as Encode
-import Json.Decode exposing (Decoder, at, string, float, list, int, map7, field, nullable)
-import Time exposing (Time)
 import Model.LightningTalkModel as LightningTalk
+import Time exposing (Time)
 
 
 type alias Model =

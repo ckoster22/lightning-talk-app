@@ -13,7 +13,9 @@ update msg page data =
             handleDataRetrieved page data rounds
 
         _ ->
-            Loading page data ! [ Cmd.none ]
+            ( Loading page data
+            , Cmd.none
+            )
 
 
 handleDataRetrieved : Page -> Data -> List Round.Model -> ( Model, Cmd Msg )
@@ -22,24 +24,30 @@ handleDataRetrieved page data rounds =
         nextData =
             { data | rounds = rounds }
     in
-        case page of
-            AllHands ->
-                Show AllHands nextData WithNoSelection ! [ Cmd.none ]
+    case page of
+        AllHands ->
+            ( Show AllHands nextData WithNoSelection
+            , Cmd.none
+            )
 
-            Admin ->
-                Show Admin nextData (WithRound ( "", 0 )) ! [ Cmd.none ]
+        Admin ->
+            ( Show Admin nextData (WithRound ( "", 0 ))
+            , Cmd.none
+            )
 
-            _ ->
-                let
-                    maybeSelectedTimeslot =
-                        ModelHelper.getFirstTimeslotWithTalkOnPage nextData page
+        _ ->
+            let
+                maybeSelectedTimeslot =
+                    ModelHelper.getFirstTimeslotWithTalkOnPage nextData page
 
-                    modifier =
-                        case maybeSelectedTimeslot of
-                            Just timeslot ->
-                                WithTimeslotSelected timeslot
+                modifier =
+                    case maybeSelectedTimeslot of
+                        Just timeslot ->
+                            WithTimeslotSelected timeslot
 
-                            Nothing ->
-                                WithNoSelection
-                in
-                    Show UpcomingTalks nextData modifier ! [ Navigation.modifyUrl "/#upcoming" ]
+                        Nothing ->
+                            WithNoSelection
+            in
+            ( Show UpcomingTalks nextData modifier
+            , Navigation.modifyUrl "/#upcoming"
+            )

@@ -1,14 +1,14 @@
-module Views.App exposing (..)
+module Views.App exposing (view)
 
 import Html exposing (Html, div, text)
 import Html.Attributes exposing (class, classList)
-import Model.Model as Model exposing (Msg(..), Model(..), Page(..))
-import Views.Header.Container as Header
-import Views.ContentArea.Content as Content
-import Views.TalkForm.TalkForm as TalkForm
-import Views.ContentArea.DeleteModal.DeleteModal as DeleteModal
+import Model.Model as Model exposing (Model(..), Msg(..), Page(..))
 import Views.Admin.Admin as Admin
 import Views.AllHands.AllHands as AllHands
+import Views.ContentArea.Content as Content
+import Views.ContentArea.DeleteModal.DeleteModal as DeleteModal
+import Views.Header.Container as Header
+import Views.TalkForm.TalkForm as TalkForm
 
 
 view : Model -> Html Msg

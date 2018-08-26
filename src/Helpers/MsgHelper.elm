@@ -1,4 +1,4 @@
-module Helpers.MsgHelper exposing (..)
+module Helpers.MsgHelper exposing (resultToMsg)
 
 import Model.Model as Model exposing (Msg(..))
 

@@ -1,11 +1,11 @@
 module Main exposing (main)
 
-import Model.Model as Model exposing (Model(..), Msg(..))
-import Update.Update exposing (update, subscriptions)
-import Views.App exposing (view)
-import Navigation exposing (Location)
-import Helpers.RoutingHelper as RoutingHelper
 import Date
+import Helpers.RoutingHelper as RoutingHelper
+import Model.Model as Model exposing (Model(..), Msg(..))
+import Navigation exposing (Location)
+import Update.Update exposing (subscriptions, update)
+import Views.App exposing (view)
 
 
 type alias Args =
@@ -28,8 +28,10 @@ init args location =
     let
         cmds =
             Cmd.batch
-                -- UrlChange doesn't happen automatically so we manually modify 
+                -- UrlChange doesn't happen automatically so we manually modify
                 -- the url to let the update function do its thing
                 [ Navigation.modifyUrl location.hash ]
     in
-        NoData (Date.fromTime args.initialTime) ! [ cmds ]
+    ( NoData (Date.fromTime args.initialTime)
+    , cmds
+    )

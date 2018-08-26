@@ -1,7 +1,7 @@
-module Views.Buttons.ActionButton exposing (actionButton, ActionButtonArgs)
+module Views.Buttons.ActionButton exposing (ActionButtonArgs, actionButton)
 
 import Html exposing (Html, a, text)
-import Html.Attributes exposing (class, title, href)
+import Html.Attributes exposing (class, href, title)
 import Model.Model as Model exposing (Msg)
 import Views.Icons.Icon exposing (icon)
 

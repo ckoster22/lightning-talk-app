@@ -1,12 +1,12 @@
 module Views.Admin.Admin exposing (view)
 
-import Html exposing (Html, div, text, input, form, button)
-import Model.Model as Model exposing (Data, Modifier(..), Msg(..), Page(..))
-import Html.Attributes exposing (placeholder, type_, value, defaultValue)
+import Helpers.ErrorHandling as ErrorHandling
+import Html exposing (Html, button, div, form, input, text)
+import Html.Attributes exposing (defaultValue, placeholder, type_, value)
 import Html.Events exposing (onInput, onSubmit)
+import Model.Model as Model exposing (Data, Modifier(..), Msg(..), Page(..))
 import Model.RoundModel as Round
 import Time exposing (Time)
-import Helpers.ErrorHandling as ErrorHandling
 
 
 view : Page -> Data -> Modifier -> Html Msg
@@ -25,9 +25,9 @@ view page data modifier =
                 _ ->
                     []
     in
-        div
-            []
-            children
+    div
+        []
+        children
 
 
 roundCreateError : String -> Html Msg

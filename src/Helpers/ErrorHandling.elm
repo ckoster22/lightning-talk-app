@@ -1,4 +1,4 @@
-module Helpers.ErrorHandling exposing (..)
+module Helpers.ErrorHandling exposing (getMessageFromError, handleResponse)
 
 import Http exposing (Error(..), Response)
 
@@ -16,10 +16,10 @@ getMessageFromError httpError =
             "Network error"
 
         BadStatus response ->
-            "Bad Status " ++ (handleResponse response)
+            "Bad Status " ++ handleResponse response
 
         BadPayload err response ->
-            "Bad Payload " ++ err ++ " " ++ (handleResponse response)
+            "Bad Payload " ++ err ++ " " ++ handleResponse response
 
 
 handleResponse : Response String -> String

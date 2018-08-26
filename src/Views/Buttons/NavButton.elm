@@ -1,7 +1,7 @@
-module Views.Buttons.NavButton exposing (navButton, NavButtonArgs)
+module Views.Buttons.NavButton exposing (NavButtonArgs, navButton)
 
 import Html exposing (Html, a, text)
-import Html.Attributes exposing (class, title, href)
+import Html.Attributes exposing (class, href, title)
 import Model.Model as Model exposing (Msg)
 
 
@@ -22,9 +22,10 @@ navButton { displayText, titleText, route, isSelected } =
         finalClass =
             if isSelected then
                 initialClass ++ " selected"
+
             else
                 initialClass
     in
-        a
-            [ class finalClass, title displayText, href route ]
-            [ text displayText ]
+    a
+        [ class finalClass, title displayText, href route ]
+        [ text displayText ]
