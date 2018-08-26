@@ -1,37 +1,37 @@
 module Main exposing (main)
 
-import Date
-import Helpers.RoutingHelper as RoutingHelper
+-- import Helpers.RoutingHelper as RoutingHelper
+
+import Browser
+import Browser.Navigation as Nav
 import Model.Model as Model exposing (Model(..), Msg(..))
-import Navigation exposing (Location)
-import Update.Update exposing (subscriptions, update)
+import Task
+import Time
+import Update.Update exposing (update)
+import Url
 import Views.App exposing (view)
 
 
-type alias Args =
-    { initialTime : Float }
-
-
-main : Program Args Model Msg
+main : Program () Model Msg
 main =
-    Navigation.programWithFlags
-        RoutingHelper.locationToMsg
+    Browser.application
         { init = init
         , view = view
         , update = update
         , subscriptions = subscriptions
+        , onUrlRequest = LinkClicked
+        , onUrlChange = UrlChanged
         }
 
 
-init : Args -> Location -> ( Model, Cmd Msg )
-init args location =
-    let
-        cmds =
-            Cmd.batch
-                -- UrlChange doesn't happen automatically so we manually modify
-                -- the url to let the update function do its thing
-                [ Navigation.modifyUrl location.hash ]
-    in
-    ( NoData (Date.fromTime args.initialTime)
-    , cmds
+init : () -> Url.Url -> Nav.Key -> ( Model, Cmd Msg )
+init _ url key =
+    ( NoData key Nothing Nothing
+    , Task.map2 (\posix zone -> ( posix, zone )) Time.now Time.here
+        |> Task.perform PosixZoneReceived
     )
+
+
+subscriptions : Model -> Sub Msg
+subscriptions model =
+    Sub.none

@@ -2,11 +2,11 @@ module Views.Admin.Admin exposing (view)
 
 import Helpers.ErrorHandling as ErrorHandling
 import Html exposing (Html, button, div, form, input, text)
-import Html.Attributes exposing (defaultValue, placeholder, type_, value)
+import Html.Attributes exposing (placeholder, type_, value)
 import Html.Events exposing (onInput, onSubmit)
 import Model.Model as Model exposing (Data, Modifier(..), Msg(..), Page(..))
 import Model.RoundModel as Round
-import Time exposing (Time)
+import Time exposing (Posix)
 
 
 view : Page -> Data -> Modifier -> Html Msg
@@ -35,7 +35,7 @@ roundCreateError error =
     text error
 
 
-roundCreateForm : String -> Time -> Html Msg
+roundCreateForm : String -> Posix -> Html Msg
 roundCreateForm theme startTime =
     form
         [ onSubmit CreateRoundSubmit ]
@@ -45,7 +45,7 @@ roundCreateForm theme startTime =
         ]
 
 
-themeInput : String -> Time -> Html Msg
+themeInput : String -> Posix -> Html Msg
 themeInput theme startTime =
     input
         [ value theme
@@ -55,21 +55,21 @@ themeInput theme startTime =
         []
 
 
-startDateTimeInput : String -> Time -> Html Msg
+startDateTimeInput : String -> Posix -> Html Msg
 startDateTimeInput theme startTime =
     input
-        [ toString startTime |> defaultValue
+        [ Time.posixToMillis startTime |> String.fromInt |> value
         , placeholder "Date/Time"
         , onInput (\input -> UpdateRoundCreateFormModel ( theme, parseInputTime input ))
         ]
         []
 
 
-parseInputTime : String -> Float
+parseInputTime : String -> Posix
 parseInputTime timeStr =
-    case String.toFloat timeStr of
-        Ok time ->
-            time
+    case String.toInt timeStr of
+        Just time ->
+            Time.millisToPosix time
 
-        Err err ->
-            0
+        Nothing ->
+            Time.millisToPosix 0

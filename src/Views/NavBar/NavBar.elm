@@ -1,6 +1,5 @@
 module Views.NavBar.NavBar exposing (view)
 
-import Helpers.SelectorHelper exposing ((<<<<))
 import Html exposing (Html, button, div, h1, text)
 import Html.Attributes exposing (class, classList, height, title, width)
 import Model.Model as Model exposing (Modifier, Msg(..))
@@ -11,8 +10,8 @@ import Views.NavBar.NavBarSelector exposing (ViewModel, selector)
 
 
 view : Modifier -> List NavButtonArgs -> List ActionButtonArgs -> Html Msg
-view =
-    navBarView <<<< selector
+view modifier navButtons actionButtonsArgs =
+    navBarView <| selector modifier navButtons actionButtonsArgs
 
 
 navBarView : ViewModel -> Html Msg

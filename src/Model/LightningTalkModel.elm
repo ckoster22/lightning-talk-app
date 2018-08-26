@@ -2,20 +2,18 @@ module Model.LightningTalkModel exposing (Model, empty, ltJsonDecoder, ltJsonEnc
 
 import Json.Decode as Decode exposing (Decoder, at, field, list, map3, string)
 import Json.Encode as Encode exposing (object, string)
-import Time exposing (Time)
 
 
 type alias Model =
     { description : String
     , speakers : String
     , topic : String
-    , startDateTime : Time
     }
 
 
 empty : Model
 empty =
-    Model "" "" "" 0
+    Model "" "" ""
 
 
 ltJsonEncoder : Model -> Encode.Value
@@ -30,7 +28,7 @@ ltJsonEncoder model =
 ltJsonDecoder : Decoder Model
 ltJsonDecoder =
     map3
-        (\desc speakers topic -> Model desc speakers topic 0)
+        (\desc speakers topic -> Model desc speakers topic)
         (field "description" Decode.string)
         (field "speakers" Decode.string)
         (field "topic" Decode.string)

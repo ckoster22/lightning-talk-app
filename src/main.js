@@ -4,6 +4,4 @@ require('./Presentation/index.scss');
 require('./loadIcons.js');
 
 const Elm = require('./Main.elm');
-Elm.Main.fullscreen({
-    initialTime: (new Date()).getTime()
-});
+Elm.Main.fullscreen();

@@ -1,11 +1,10 @@
 module Helpers.ModelHelper exposing (collapseLightningTalks, findTalk, getFirstTimeslotWithTalkOnPage, getRoundForTalk, getRoundMinusThisTalk, getSlotNum, getStartTimeFromTalk, getTalkStartTime, getThemeDisplay, upcomingRoundFilter)
 
-import Date exposing (Date)
 import Helpers.DateHelper exposing (millisecondsInHour)
 import Model.LightningTalkModel as LightningTalk
 import Model.Model as Model exposing (Data, Page(..), Timeslot)
 import Model.RoundModel as Round
-import Time exposing (Time)
+import Time exposing (Posix, Zone)
 
 
 getRoundForTalk : Data -> LightningTalk.Model -> Maybe Round.Model
@@ -54,20 +53,20 @@ getRoundMinusThisTalk round talk =
         round
 
 
-findTalk : Data -> String -> Time -> Maybe LightningTalk.Model
-findTalk data roundId offset =
+findTalk : Data -> String -> Int -> Maybe LightningTalk.Model
+findTalk data roundId offsetMs =
     data.rounds
         |> List.filter (\round -> round.id == roundId)
         |> List.head
         |> Maybe.map
             (\round ->
-                if offset == 0 then
+                if offsetMs == 0 then
                     round.slot1
 
-                else if offset == 600000 then
+                else if offsetMs == 600000 then
                     round.slot2
 
-                else if offset == 1200000 then
+                else if offsetMs == 1200000 then
                     round.slot3
 
                 else
@@ -99,42 +98,39 @@ getSlotNum maybeRound talk =
             Nothing
 
 
-getTalkStartTime : Time -> String
-getTalkStartTime startDateTime =
+getTalkStartTime : Zone -> Posix -> String
+getTalkStartTime zone startTime =
     let
-        date =
-            Date.fromTime startDateTime
-
         hour =
-            Date.hour date
+            Time.toHour zone startTime
 
         hourString =
             if hour > 12 then
-                toString <| hour - 12
+                String.fromInt <| hour - 12
 
             else if hour == 0 then
-                toString 12
+                String.fromInt 12
 
             else
-                toString hour
+                String.fromInt hour
 
         minute =
-            Date.minute date
+            Time.toMinute zone startTime
 
         minuteString =
-            String.padLeft 2 '0' (toString minute)
+            String.padLeft 2 '0' (String.fromInt minute)
     in
     hourString ++ ":" ++ minuteString
 
 
 getStartTimeFromTalk : LightningTalk.Model -> String
 getStartTimeFromTalk talk =
-    getTalkStartTime talk.startDateTime
+    Debug.todo "calculate talk start time another way"
 
 
-upcomingRoundFilter : Date -> Round.Model -> Bool
+upcomingRoundFilter : Posix -> Round.Model -> Bool
 upcomingRoundFilter initialTime round =
-    Date.toTime initialTime < round.startDateTime + millisecondsInHour
+    Time.posixToMillis initialTime < Time.posixToMillis round.startDateTime + millisecondsInHour
 
 
 getFirstTimeslotWithTalkOnPage : Data -> Page -> Maybe Timeslot
@@ -143,12 +139,12 @@ getFirstTimeslotWithTalkOnPage data page =
         |> List.filter
             (\round ->
                 if page == UpcomingTalks then
-                    round.startDateTime >= Date.toTime data.initialTime
+                    Time.posixToMillis round.startDateTime >= Time.posixToMillis data.initialTime
 
                 else
-                    round.startDateTime < Date.toTime data.initialTime
+                    Time.posixToMillis round.startDateTime < Time.posixToMillis data.initialTime
             )
-        |> List.sortBy .startDateTime
+        |> List.sortBy (\round -> Time.posixToMillis round.startDateTime)
         |> List.foldl
             (\round maybeTimeslot ->
                 case maybeTimeslot of

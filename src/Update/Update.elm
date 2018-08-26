@@ -1,4 +1,4 @@
-port module Update.Update exposing (subscriptions, update)
+port module Update.Update exposing (update)
 
 import Model.Model as Model exposing (Model(..), Modifier(..), Msg(..), Page(..))
 import Update.Loading.Update as LoadingUpdate
@@ -6,16 +6,11 @@ import Update.NoData.Update as NoDataUpdate
 import Update.Show.Update as ShowUpdate
 
 
-subscriptions : Model -> Sub Msg
-subscriptions model =
-    Sub.none
-
-
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case model of
-        NoData date ->
-            NoDataUpdate.update msg date
+        NoData key zone_ posix_ ->
+            NoDataUpdate.update msg key zone_ posix_
 
         Loading page data ->
             LoadingUpdate.update msg page data

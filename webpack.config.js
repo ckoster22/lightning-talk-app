@@ -2,7 +2,7 @@ var webpack = require('webpack');
 var HtmlWebpackPlugin = require('html-webpack-plugin');
 var path = require('path');
 
-var elmLoader = process.env.ENV === 'production' ? 'elm-webpack' : 'elm-webpack?debug=true';
+var elmLoader = process.env.ENV === 'production' ? 'elm-webpack?pathToMake=node_modules/.bin/elm' : 'elm-webpack?debug=true&pathToMake=node_modules/.bin/elm';
 
 var config = {
     entry: {

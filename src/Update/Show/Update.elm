@@ -1,14 +1,13 @@
 module Update.Show.Update exposing (update)
 
-import Date exposing (Date)
+import Browser.Navigation as Nav
 import Helpers.ModelHelper as ModelHelper
 import Http
 import Http.RoundHttp exposing (createRound, createTalk, deleteTalk, updateRound, updateTalk)
 import Model.LightningTalkModel as LightningTalk
 import Model.Model as Model exposing (Data, FormError(..), FormType(..), LightningTalkFormModel, Model(..), Modifier(..), Msg(..), Page(..), TalkIdentifier, Timeslot)
 import Model.RoundModel as Round
-import Navigation
-import Time exposing (Time)
+import Time exposing (Posix)
 
 
 update : Msg -> Page -> Data -> Modifier -> ( Model, Cmd Msg )
@@ -58,7 +57,7 @@ update msg page data modifier =
 
         NavigateTo route ->
             ( Show page data modifier
-            , Navigation.newUrl route
+            , Nav.pushUrl data.key route
             )
 
         PromptForTalkDeletion ->
@@ -254,7 +253,7 @@ handleCreateTalkSuccess page data modifier updatedRound =
     case ( page, modifier ) of
         ( CreateEditTalkForm, WithTalkSubmitting _ _ _ ) ->
             ( Show UpcomingTalks nextData WithNoSelection
-            , Navigation.newUrl "/#upcoming"
+            , Nav.pushUrl data.key "/#upcoming"
             )
 
         _ ->
@@ -370,7 +369,7 @@ handleGoToCreateForm data maybeTalkIdentifier =
     let
         formModel =
             case maybeTalkIdentifier of
-                Just { roundId, offset } ->
+                Just { roundId, offsetMs } ->
                     let
                         maybeSelectedRound =
                             data.rounds
@@ -378,13 +377,13 @@ handleGoToCreateForm data maybeTalkIdentifier =
                                 |> List.head
 
                         selectedSlotNum =
-                            if offset == 0 then
+                            if offsetMs == 0 then
                                 1
 
-                            else if offset == 600000 then
+                            else if offsetMs == 600000 then
                                 2
 
-                            else if offset == 1200000 then
+                            else if offsetMs == 1200000 then
                                 3
 
                             else
@@ -399,7 +398,7 @@ handleGoToCreateForm data maybeTalkIdentifier =
 
                         selectedRound =
                             data.rounds
-                                |> List.filter (\round -> Date.toTime data.initialTime < round.startDateTime)
+                                |> List.filter (\round -> Time.posixToMillis data.initialTime < Time.posixToMillis round.startDateTime)
                                 |> List.head
                     in
                     { original = original, model = original, selectedRound = selectedRound, selectedSlotNum = Nothing }
@@ -413,7 +412,7 @@ handleGoToEditForm : Data -> TalkIdentifier -> ( Model, Cmd Msg )
 handleGoToEditForm data talkIdentifier =
     let
         maybeEditTalk =
-            ModelHelper.findTalk data talkIdentifier.roundId talkIdentifier.offset
+            ModelHelper.findTalk data talkIdentifier.roundId talkIdentifier.offsetMs
     in
     case maybeEditTalk of
         Just talk ->
@@ -442,7 +441,7 @@ handleGoToEditForm data talkIdentifier =
 
 
 handleGoToTalksPage : Page -> Data -> Modifier -> ( Model, Cmd Msg )
-handleGoToTalksPage page data modifier =
+handleGoToTalksPage page data _ =
     let
         maybeSelectedTimeslot =
             ModelHelper.getFirstTimeslotWithTalkOnPage data page
@@ -512,7 +511,7 @@ handleUpdateRound page data updatedRound =
     )
 
 
-handleUpdateRoundCreateFormModel : Page -> Data -> Modifier -> ( String, Time ) -> ( Model, Cmd Msg )
+handleUpdateRoundCreateFormModel : Page -> Data -> Modifier -> ( String, Posix ) -> ( Model, Cmd Msg )
 handleUpdateRoundCreateFormModel page data modifier formModel =
     case ( page, modifier ) of
         ( Admin, WithRound _ ) ->
@@ -717,7 +716,7 @@ handleUpdateTalkSuccess page data modifier updatedRound =
     case ( page, modifier ) of
         ( CreateEditTalkForm, WithTalkSubmitting _ _ _ ) ->
             ( Show UpcomingTalks nextData WithNoSelection
-            , Navigation.newUrl "/#upcoming"
+            , Nav.pushUrl data.key "/#upcoming"
             )
 
         _ ->

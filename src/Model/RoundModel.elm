@@ -1,14 +1,14 @@
 module Model.RoundModel exposing (Model, empty, roundJsonDecoder, roundJsonEncoder, roundsJsonDecoder)
 
-import Json.Decode exposing (Decoder, at, field, float, int, list, map7, nullable, string)
+import Json.Decode exposing (Decoder, at, field, float, int, list, map, map7, nullable, string)
 import Json.Encode as Encode
 import Model.LightningTalkModel as LightningTalk
-import Time exposing (Time)
+import Time exposing (Posix, Zone)
 
 
 type alias Model =
     { id : String
-    , startDateTime : Time
+    , startDateTime : Posix
     , theme : String
     , slot1 : Maybe LightningTalk.Model
     , slot2 : Maybe LightningTalk.Model
@@ -17,16 +17,23 @@ type alias Model =
     }
 
 
-empty : Model
-empty =
-    Model "" 0 "" Nothing Nothing Nothing Nothing
+empty : Zone -> Posix -> Model
+empty zone posix =
+    { id = ""
+    , startDateTime = posix
+    , theme = ""
+    , slot1 = Nothing
+    , slot2 = Nothing
+    , slot3 = Nothing
+    , slot4 = Nothing
+    }
 
 
 roundJsonEncoder : Model -> Encode.Value
 roundJsonEncoder model =
     Encode.object
         [ ( "id", Encode.string model.id )
-        , ( "startDateTime", Encode.float model.startDateTime )
+        , ( "startDateTime", Encode.int <| Time.posixToMillis model.startDateTime )
         , ( "theme", Encode.string model.theme )
         , ( "slot1", slotEncoder model.slot1 )
         , ( "slot2", slotEncoder model.slot2 )
@@ -55,7 +62,7 @@ roundJsonDecoder =
     map7
         Model
         (field "id" string)
-        (field "startDateTime" float)
+        (field "startDateTime" <| map Time.millisToPosix int)
         (field "theme" string)
         (field "slot1" (nullable LightningTalk.ltJsonDecoder))
         (field "slot2" (nullable LightningTalk.ltJsonDecoder))

@@ -1,12 +1,12 @@
 module Views.TalkForm.TalkFormSelector exposing (RoundViewModel, TimeslotViewModel, ViewModel, selector)
 
-import Date exposing (Date)
 import Helpers.DateHelper as DateHelper
 import Helpers.ErrorHandling as ErrorHandling
 import Helpers.ModelHelper as ModelHelper
 import Model.LightningTalkModel as LightningTalk
 import Model.Model exposing (Data, FormError(..), FormType(..), LightningTalkFormModel, Modifier(..), Msg(..))
 import Model.RoundModel as Round
+import Time exposing (Zone)
 
 
 type alias ViewModel =
@@ -56,8 +56,8 @@ emptyFormModel =
     { original = LightningTalk.empty, model = LightningTalk.empty, selectedRound = Nothing, selectedSlotNum = Nothing }
 
 
-selector : Data -> Modifier -> ViewModel
-selector data modifier =
+selector : Data -> Modifier -> Zone -> ViewModel
+selector data modifier zone =
     let
         ( formModel, maybeFormError ) =
             case modifier of
@@ -75,18 +75,18 @@ selector data modifier =
 
         upcomingRounds =
             data.rounds
-                |> List.filter (\round -> Date.toTime data.initialTime < round.startDateTime)
+                |> List.filter (\round -> Time.posixToMillis data.initialTime < Time.posixToMillis round.startDateTime)
 
         selectedRound =
             case formModel.selectedRound of
-                Just selectedRound ->
-                    Just <| createRoundViewModel formModel selectedRound
+                Just selected ->
+                    Just <| createRoundViewModel formModel zone selected
 
                 Nothing ->
                     Nothing
 
         upcomingRoundViewModels =
-            List.map (createRoundViewModel formModel) upcomingRounds
+            List.map (createRoundViewModel formModel zone) upcomingRounds
 
         maybeGeneralError =
             case maybeFormError of
@@ -199,8 +199,8 @@ onDescriptionUpdate formModel description =
     UpdateTalkFormModel { formModel | model = nextTalk }
 
 
-createRoundViewModel : LightningTalkFormModel -> Round.Model -> RoundViewModel
-createRoundViewModel formModel round =
+createRoundViewModel : LightningTalkFormModel -> Zone -> Round.Model -> RoundViewModel
+createRoundViewModel formModel zone round =
     let
         isSelected =
             case formModel.selectedRound of
@@ -214,26 +214,26 @@ createRoundViewModel formModel round =
             ModelHelper.getThemeDisplay round.theme
 
         displayText =
-            DateHelper.getDateFromEpoch round.startDateTime ++ " - " ++ theme
+            DateHelper.getDateFromEpoch round.startDateTime zone ++ " - " ++ theme
 
         isFull =
             round.slot1 /= Nothing && round.slot2 /= Nothing && round.slot3 /= Nothing && round.slot4 /= Nothing
 
         timeslotViewModels =
-            [ createTimeslotViewModel formModel round round.slot1 1
-            , createTimeslotViewModel formModel round round.slot1 2
-            , createTimeslotViewModel formModel round round.slot1 3
-            , createTimeslotViewModel formModel round round.slot1 4
+            [ createTimeslotViewModel formModel round round.slot1 1 zone
+            , createTimeslotViewModel formModel round round.slot1 2 zone
+            , createTimeslotViewModel formModel round round.slot1 3 zone
+            , createTimeslotViewModel formModel round round.slot1 4 zone
             ]
     in
     RoundViewModel round displayText isSelected isFull timeslotViewModels
 
 
-createTimeslotViewModel : LightningTalkFormModel -> Round.Model -> Maybe LightningTalk.Model -> Int -> TimeslotViewModel
-createTimeslotViewModel formModel slotRound maybeTalk slotNum =
+createTimeslotViewModel : LightningTalkFormModel -> Round.Model -> Maybe LightningTalk.Model -> Int -> Zone -> TimeslotViewModel
+createTimeslotViewModel formModel slotRound maybeTalk slotNum zone =
     let
         timeslotId =
-            "timeslot" ++ toString slotNum
+            "timeslot" ++ String.fromInt slotNum
 
         isChecked =
             formModel.selectedRound == Just slotRound && formModel.selectedSlotNum == Just slotNum
@@ -260,7 +260,7 @@ createTimeslotViewModel formModel slotRound maybeTalk slotNum =
                     UpdateTalkFormModel { formModel | selectedSlotNum = Nothing }
 
         timeDisplay =
-            ModelHelper.getTalkStartTime (slotRound.startDateTime + ((toFloat slotNum - 1) * 600000))
+            ModelHelper.getTalkStartTime zone (Time.millisToPosix <| Time.posixToMillis slotRound.startDateTime + ((slotNum - 1) * 600000))
     in
     TimeslotViewModel timeslotId isChecked isDisabled onCheckedHandler timeDisplay
 

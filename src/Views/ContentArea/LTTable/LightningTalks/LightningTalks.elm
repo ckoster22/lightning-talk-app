@@ -1,6 +1,5 @@
 module Views.ContentArea.LTTable.LightningTalks.LightningTalks exposing (view)
 
-import Helpers.SelectorHelper exposing ((<<<<))
 import Html exposing (Html, button, div, h3, h4, input, li, span, text, ul)
 import Html.Attributes exposing (class, classList, title, value)
 import Html.Events exposing (onClick, onInput)
@@ -11,8 +10,8 @@ import Views.Icons.Icon exposing (icon)
 
 
 view : Page -> Data -> Modifier -> Html Msg
-view =
-    talkListView <<<< selector
+view page data modifier =
+    talkListView <| selector page data modifier
 
 
 talkListView : ViewModel -> Html Msg

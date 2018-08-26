@@ -1,11 +1,11 @@
 module Views.AllHands.AllHandsSelector exposing (ViewModel, selector)
 
-import Date exposing (Date)
 import Helpers.DateHelper as DateHelper
 import Helpers.ModelHelper as ModelHelper
 import Model.LightningTalkModel as LightningTalk
 import Model.Model exposing (Data)
 import Model.RoundModel as Round
+import Time exposing (Zone, toDay, toMonth)
 
 
 type alias ViewModel =
@@ -25,14 +25,14 @@ selector data =
     case upcomingRounds of
         _ :: upcomingRound :: twoRoundsFromNow :: _ ->
             ViewModel
-                (getRoundDisplayDate upcomingRound)
+                (getRoundDisplayDate data.zone upcomingRound)
                 (ModelHelper.getThemeDisplay upcomingRound.theme)
                 (getCollapsedTalks upcomingRound)
-                (getNextRoundDisplay twoRoundsFromNow)
+                (getNextRoundDisplay data.zone twoRoundsFromNow)
 
         _ :: upcomingRound :: _ ->
             ViewModel
-                (getRoundDisplayDate upcomingRound)
+                (getRoundDisplayDate data.zone upcomingRound)
                 (ModelHelper.getThemeDisplay upcomingRound.theme)
                 (getCollapsedTalks upcomingRound)
                 ""
@@ -41,21 +41,16 @@ selector data =
             ViewModel "" "" [] ""
 
 
-getRoundDisplayDate : Round.Model -> String
-getRoundDisplayDate round =
+getRoundDisplayDate : Zone -> Round.Model -> String
+getRoundDisplayDate zone round =
     let
-        date =
-            Date.fromTime round.startDateTime
-
         month =
-            date
-                |> Date.month
+            toMonth zone round.startDateTime
                 |> DateHelper.convertMonthToString
 
         day =
-            date
-                |> Date.day
-                |> toString
+            toDay zone round.startDateTime
+                |> String.fromInt
     in
     month ++ " " ++ day
 
@@ -65,23 +60,10 @@ getCollapsedTalks round =
     ModelHelper.collapseLightningTalks [ round.slot1, round.slot2, round.slot3, round.slot4 ]
 
 
-getNextRoundDisplay : Round.Model -> String
-getNextRoundDisplay round =
+getNextRoundDisplay : Zone -> Round.Model -> String
+getNextRoundDisplay zone round =
     let
-        date =
-            Date.fromTime round.startDateTime
-
-        month =
-            date
-                |> Date.month
-                |> DateHelper.convertMonthToString
-
-        day =
-            date
-                |> Date.day
-                |> toString
-
         theme =
             ModelHelper.getThemeDisplay round.theme
     in
-    month ++ " " ++ day ++ ": " ++ theme
+    getRoundDisplayDate zone round ++ ": " ++ theme

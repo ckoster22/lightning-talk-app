@@ -1,5 +1,6 @@
 module Views.App exposing (view)
 
+import Browser exposing (Document)
 import Html exposing (Html, div, text)
 import Html.Attributes exposing (class, classList)
 import Model.Model as Model exposing (Model(..), Msg(..), Page(..))
@@ -11,10 +12,17 @@ import Views.Header.Container as Header
 import Views.TalkForm.TalkForm as TalkForm
 
 
-view : Model -> Html Msg
+view : Model -> Document Msg
 view model =
+    { title = "Lightning Talks"
+    , body = [ bodyView model ]
+    }
+
+
+bodyView : Model -> Html Msg
+bodyView model =
     case model of
-        NoData date ->
+        NoData _ _ _ ->
             div
                 [ class "flex flex-auto flex-column" ]
                 [ text "No Data" ]
@@ -29,7 +37,7 @@ view model =
                 CreateEditTalkForm ->
                     div
                         [ class "flex flex-auto" ]
-                        [ TalkForm.view data modifier ]
+                        [ TalkForm.view data modifier data.zone ]
 
                 UpcomingTalks ->
                     div

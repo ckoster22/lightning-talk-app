@@ -24,4 +24,4 @@ getMessageFromError httpError =
 
 handleResponse : Response String -> String
 handleResponse response =
-    toString response.status.code ++ ":" ++ response.status.message ++ ":" ++ response.url
+    String.fromInt response.status.code ++ ":" ++ response.status.message ++ ":" ++ response.url

@@ -7,7 +7,6 @@ import Html.Events exposing (onClick)
 import Model.LightningTalkModel as LightningTalkModel
 import Model.Model as Model exposing (Data, Model(..), Modifier(..), Msg(..), Page(..), Timeslot)
 import Model.RoundModel as Round
-import Time exposing (Time)
 import Views.Icons.Icon exposing (icon)
 
 
@@ -27,7 +26,7 @@ view page data modifier =
                 Just timeslot ->
                     case timeslot.model of
                         Just talk ->
-                            talkDetails page talk timeslot.round timeslot.offset
+                            talkDetails page talk timeslot.round timeslot.offsetMs
 
                         Nothing ->
                             emptyDetails timeslot
@@ -40,13 +39,13 @@ view page data modifier =
         content
 
 
-talkDetails : Page -> LightningTalkModel.Model -> Round.Model -> Time -> List (Html Model.Msg)
-talkDetails page talk round offset =
+talkDetails : Page -> LightningTalkModel.Model -> Round.Model -> Int -> List (Html Model.Msg)
+talkDetails page talk round offsetMs =
     [ div
         [ class "flex" ]
       <|
         div [ class "flex-auto" ] [ h1 [ class "mt0" ] [ text talk.topic ] ]
-            :: getOptionsHtml page talk round offset
+            :: getOptionsHtml page talk round offsetMs
     , h4 [] [ text talk.speakers ]
     , h3 [] [ text (ModelHelper.getStartTimeFromTalk talk) ]
     , p [] [ text talk.description ]
@@ -57,7 +56,7 @@ emptyDetails : Timeslot -> List (Html Model.Msg)
 emptyDetails timeslot =
     let
         route =
-            "/#create/" ++ timeslot.round.id ++ "/" ++ toString timeslot.offset
+            "/#create/" ++ timeslot.round.id ++ "/" ++ String.fromInt timeslot.offsetMs
     in
     [ div
         [ class "flex lt-no-talk" ]
@@ -70,11 +69,11 @@ emptyDetails timeslot =
     ]
 
 
-getOptionsHtml : Page -> LightningTalkModel.Model -> Round.Model -> Time -> List (Html Msg)
-getOptionsHtml page talk round offset =
+getOptionsHtml : Page -> LightningTalkModel.Model -> Round.Model -> Int -> List (Html Msg)
+getOptionsHtml page talk round offsetMs =
     if page == UpcomingTalks then
         [ div [] [ a [ onClick PromptForTalkDeletion, title "Delete talk", class "detail-button" ] [ icon "icon-delete" ] ]
-        , div [] [ a [ title "Update talk", class "detail-button", href ("/#update/" ++ round.id ++ "/" ++ toString offset) ] [ icon "icon-edit" ] ]
+        , div [] [ a [ title "Update talk", class "detail-button", href ("/#update/" ++ round.id ++ "/" ++ String.fromInt offsetMs) ] [ icon "icon-edit" ] ]
         ]
 
     else

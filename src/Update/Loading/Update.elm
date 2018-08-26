@@ -1,9 +1,10 @@
 module Update.Loading.Update exposing (update)
 
+import Browser.Navigation as Nav
 import Helpers.ModelHelper as ModelHelper
 import Model.Model as Model exposing (Data, Model(..), Modifier(..), Msg(..), Page(..))
 import Model.RoundModel as Round
-import Navigation
+import Time
 
 
 update : Msg -> Page -> Data -> ( Model, Cmd Msg )
@@ -21,6 +22,8 @@ update msg page data =
 handleDataRetrieved : Page -> Data -> List Round.Model -> ( Model, Cmd Msg )
 handleDataRetrieved page data rounds =
     let
+        -- For some reason this annotation is necesary..
+        nextData : Data
         nextData =
             { data | rounds = rounds }
     in
@@ -31,7 +34,7 @@ handleDataRetrieved page data rounds =
             )
 
         Admin ->
-            ( Show Admin nextData (WithRound ( "", 0 ))
+            ( Show Admin nextData (WithRound ( "", Time.millisToPosix 0 ))
             , Cmd.none
             )
 
@@ -49,5 +52,5 @@ handleDataRetrieved page data rounds =
                             WithNoSelection
             in
             ( Show UpcomingTalks nextData modifier
-            , Navigation.modifyUrl "/#upcoming"
+            , Nav.replaceUrl data.key "/#upcoming"
             )

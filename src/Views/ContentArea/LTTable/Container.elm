@@ -1,6 +1,5 @@
 module Views.ContentArea.LTTable.Container exposing (view)
 
-import Date exposing (Date)
 import Helpers.DateHelper exposing (millisecondsInHour)
 import Html exposing (Html, div, li, text, ul)
 import Html.Attributes exposing (class)

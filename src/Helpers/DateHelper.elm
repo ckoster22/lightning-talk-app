@@ -1,33 +1,29 @@
 module Helpers.DateHelper exposing (convertMonthToString, getDateFromEpoch, millisecondsInHour)
 
-import Date exposing (Month(..))
-import Time exposing (Time)
+import Time exposing (Month(..), Posix, Zone, toDay, toMonth, toYear)
 
 
-millisecondsInHour : Float
+millisecondsInHour : Int
 millisecondsInHour =
     3600000
 
 
-getDateFromEpoch : Time -> String
-getDateFromEpoch epoch =
+getDateFromEpoch : Posix -> Zone -> String
+getDateFromEpoch posix timezone =
     let
-        date =
-            Date.fromTime epoch
-
         year =
-            Date.year date
+            toYear timezone posix
 
         month =
-            Date.month date
+            toMonth timezone posix
 
         day =
-            Date.day date
+            toDay timezone posix
 
         monthString =
             convertMonthToString month
     in
-    monthString ++ " " ++ toString day ++ ", " ++ toString year
+    convertMonthToString month ++ " " ++ String.fromInt day ++ ", " ++ String.fromInt year
 
 
 convertMonthToString : Month -> String
